@@ -1,0 +1,408 @@
+{
+  "documents": [
+    "Decentralized Crypto Safety & Autonomous\nTrading Platform – Research Summary\n1. Competitor Analysis\nCrypto Safety Scoring: Existing tools provide vulnerability and risk ratings for tokens/projects. For\nexample, CertiK offers “Skynet Score,” a real-time security rating for 17,000+ projects . DeFi\nSafety (defisafety.com) “evaluates 260+ protocols, 20+ chains, and 25,400+ contracts” based on\ndevelopment practices . RugDoc IO is a community-driven audit service offering free project\nreviews . Other notable services include on-chain monitors like PeckShield and audit firms (e.g.\nQuantstamp) that score smart contract quality. These platforms focus on technical audits and on-\nchain metrics to flag high-risk tokens.\nSocial Sentiment Analysis: A number of analytics platforms track crypto social media to gauge\nmarket mood. Santiment aggregates on-chain data and social metrics, claiming to be “#1 in\nsentiment crypto metrics” since 2014 . LunarCrush is a popular tool that “filters out the noise in",
+    "market mood. Santiment aggregates on-chain data and social metrics, claiming to be “#1 in\nsentiment crypto metrics” since 2014 . LunarCrush is a popular tool that “filters out the noise in\nthe cryptocurrency world” by continuously tracking and summarizing social activity across Twitter ,\nReddit, etc . Other competitors include TheTIE , CoinTrendz , and Valis , which provide sentiment\nindices and news impact feeds. Many of these are proprietary, centralized analytics services.\nAutonomous Trading Agents: Emerging decentralized platforms let users deploy automated\ntrading “bots” or AI agents. For example, AIQuant.fun enables users to build AI-driven trading\nagents that operate 24/7 with configurable strategies . It supports multi-chain execution and uses\nan AI core for decision-making. The RoboFi platform offers a “marketplace of DAO crypto trading bots”\nvia an Initial Bot Offering (IBO) model , letting users stake or invest in others’ algorithms. Virtuals",
+    "via an Initial Bot Offering (IBO) model , letting users stake or invest in others’ algorithms. Virtuals\nProtocol bills itself as a “Society of AI Agents – The Wall Street for AI Agents” , providing a\nframework (GAME) to co-own and trade AI-driven agents. These platforms emphasize transparency\nand shared governance of algorithms.\nFigure: Example interface of an AI-powered crypto trading platform. For instance, AIQuant.fun’s web dashboard\nlets users create and deploy autonomous, AI-driven trading agents .\n2. Profitability & Scalability of Tiered SaaS + Brokerage Model\nTiered SaaS Revenue: A tiered subscription model can generate reliable recurring income. By\noffering Free/Basic (limited features), Pro, and Enterprise packages, the platform can serve a wide\nrange of users (retail traders to institutions). Higher tiers can unlock advanced analytics, higher API\nlimits, or premium sentiment feeds. SaaS typically enjoys high gross margins (often 70–90%) once",
+    "limits, or premium sentiment feeds. SaaS typically enjoys high gross margins (often 70–90%) once\nthe platform is built, since digital delivery has low incremental cost. The tiered structure also aids\nscalability: as more customers join, revenue grows with usage without a proportional rise in costs.\n(Industry sources note that tiered pricing aligns revenue with customer value .) •\n1\n2\n3\n•\n4\n5\n•\n6\n7\n8\n6\n•\n9\n1",
+    "Brokerage Services: In addition to subscriptions, acting as a crypto broker/aggregator (handling\ntrades or fiat on-ramps) can add fee-based income. For example, partnering with liquidity providers\nor exchanges to execute trades on behalf of users earns commission or spread revenue. This model\nscales with trading volume: high-frequency or institutional traders generate more fees. However ,\nbroker operations require compliance and capital for exchange reserves. Profitability hinges on\ncapturing sufficient volume and maintaining tight spreads; but it complements SaaS fees by\nmonetizing market activity directly.\nScalability Considerations: Both SaaS and brokerage models scale well in crypto. Digital tools easily\nserve global users and can be deployed across multiple chains. Costs like server infrastructure and\ndata costs grow sub-linearly with user count. Key challenges are user acquisition and retention",
+    "serve global users and can be deployed across multiple chains. Costs like server infrastructure and\ndata costs grow sub-linearly with user count. Key challenges are user acquisition and retention\n(managing churn), and regulatory compliance for fiat/crypto brokerage. Overall, a mixed model\ncombines stable subscription income with variable but high-potential trading revenues, improving\nlong-term profitability and scalability.\n3. Global Crypto Adoption Trends (Outside India)\nLeading Countries (2024): Recent data show rapid growth outside India, especially in developing\nregions. Chainalysis reports Nigeria, Indonesia, the USA, Vietnam, etc. as top adopters by index score\n. For instance, Nigeria ranks #2 globally (sub-Saharan Africa), and Indonesia and Vietnam are\n#3 and #5, respectively . North America and Western Europe also saw surges after events like the\nUS Bitcoin ETF launch . A TRM Labs report similarly notes that “India, Indonesia, Nigeria, the",
+    "#3 and #5, respectively . North America and Western Europe also saw surges after events like the\nUS Bitcoin ETF launch . A TRM Labs report similarly notes that “India, Indonesia, Nigeria, the\nUnited States, and Vietnam led in crypto adoption in 2024” . Notably, Africa and Latin America\nare growing fast (e.g. Kenya doubled its crypto volume year-over-year ).\nCountry Global Index Rank (2024) Region\nIndia 1 Central & S. Asia/Oceania\nNigeria 2 Sub-Saharan Africa\nIndonesia 3 Central & S. Asia/Oceania\nUnited States 4 North America\nVietnam 5 Central & S. Asia/Oceania\nTable: Top 5 countries in Chainalysis 2024 Global Crypto Adoption Index (emphasizing outside-India usage).\nUsage Metrics: Global crypto ownership is rising. TripleA estimates ~6.8% of the world’s population\n(~560 million people) held cryptocurrency in 2024 . Adoption tends to be highest where crypto\nsolves local problems (remittances, inflation hedge, limited banking). For example, the UAE (24.4%)",
+    "(~560 million people) held cryptocurrency in 2024 . Adoption tends to be highest where crypto\nsolves local problems (remittances, inflation hedge, limited banking). For example, the UAE (24.4%)\nand Nigeria (18.9%) have very high ownership rates , reflecting diverse use cases. Overall,\ncrypto usage is expanding fastest in lower/middle-income regions, but also seeing renewed growth\nin developed markets due to institutional products . •\n•\n•\n10\n10\n11\n12\n13\n10\n•\n14\n1516\n1114\n2",
+    "4. Technical Best Practices\nSocial Sentiment Pipeline: Build a streaming data pipeline ingesting crypto-related feeds (Twitter ,\nReddit, Telegram, news APIs). Use technologies like Apache Kafka or AWS Kinesis for ingestion, then\nprocess text with NLP libraries (e.g. NLTK, HuggingFace Transformers). For example, a live sentiment\nanalyzer can use Kafka to feed headlines into a Python sentiment model, outputting buy/hold/sell\nsignals in real time . Design it modularly: one component for data collection, another running\nsentiment analysis (potentially as a UDF or sidecar), and a sink to a database or realtime dashboard.\nPre-process text to remove spam/bots and use finance-tuned models (e.g. FinBERT) to improve\naccuracy. Incorporate multi-language support for global coverage. Ensure streaming ops are\nefficient; as noted by Zhao (2025), traditional pipelines can become “microservices sandwiches”\nunless integrated carefully .",
+    "efficient; as noted by Zhao (2025), traditional pipelines can become “microservices sandwiches”\nunless integrated carefully .\nOn-Chain Analytics: Adopt a scalable multi-chain data stack . Connect full nodes (or reliable\nproviders) for each target blockchain and use WebSocket/event streaming to capture blocks and\ntransactions . Process data with a combination of real-time streaming (e.g. Flink/Kafka\nstreams) and batch indexing (e.g. The Graph subgraphs) . Index smart-contract events (transfers,\nswaps) in a time-series or graph database (e.g. InfluxDB, ClickHouse, Neo4j) to support fast queries\n. Provide a GraphQL/REST API layer for analytics clients. Crucially, invest in data quality :\nimplement robust validation and error handling from day one, since “on-chain analytics is only as\ngood as the data quality” . Use data integrity checks and reconciliation (e.g. cross-check totals\nagainst on-chain snapshots).",
+    "good as the data quality” . Use data integrity checks and reconciliation (e.g. cross-check totals\nagainst on-chain snapshots).\nPrivacy & Analytics Ethics: When linking off-chain (social) and on-chain data, follow privacy-first\npractices. Treat wallet addresses as anonymous identifiers and avoid collecting personal data .\nOpen-source your tracking SDKs and be transparent about what is captured. Use event-based\nanalytics (web3 API calls, on-chain events) and respect user opt-outs. Such design builds trust and\ncomplies with emerging Web3 analytics standards .\nAutonomous Agent Infrastructure: Architect trading agents using modular , secure components. A\ncommon pattern is a supervisor-collaborator model: a master agent orchestrates sub-agents (e.g. one\nfor market data, one for trade execution) . Leverage frameworks like LangChain or custom\nmicroservices for this. Agents must securely integrate with blockchain nodes: use reliable providers",
+    "for market data, one for trade execution) . Leverage frameworks like LangChain or custom\nmicroservices for this. Agents must securely integrate with blockchain nodes: use reliable providers\n(Alchemy, Infura, or BSC/Polygon endpoints) for on-chain data and transactions . Automate\nexecution via smart-contract schedulers (Chainlink Keepers or Gelato) to trigger actions under\ndefined conditions. Key management is critical: store any trading wallets’ private keys in hardware\nor cloud HSM/KMS solutions (e.g. AWS KMS) to prevent theft . Incorporate real-time data feeds\n(prices, mempool, sentiment) and guardrails (e.g. sanity checks on prices) to prevent agent errors.\nDesigning clear on-chain contracts for agent governance and payments (staking or subscription) will\nensure decentralized execution. •\n17\n17\n•\n18\n1920\n21\n•\n22\n22\n•\n23\n24\n24\n3",
+    "5. 3-Month Roadmap (Dec 2025 – Feb 2026)\nMonth Learning & Planning Development Milestones Pilot Deployment\nDec\n2025• Study chosen tech stacks\n(Kafka, Flink, GraphQL, AI\nframeworks) and legal\nrequirements. <br> • Hire/\nkey team formation\n(devops, blockchain dev,\ndata scientists).• Define architecture (modular\ndata pipelines, smart-contract\ndesign). <br> • Build initial\nprototypes: set up blockchain\nnode endpoints, dummy\nsentiment stream, and a\nsimple trading-agent contract.• N/A (initial proof-of-concept\nonly).\nJan\n2026• Team training on tools\n(The Graph, AI model APIs,\nChainlink/Gelato). <br> •\nRefine regulatory\ncompliance (KYC/AML\nplan).• Develop core modules:\nsentiment ingestion/analysis\npipeline; on-chain analytics\ndashboard; basic\nautonomous-trader prototype\n(off-chain bot + on-chain\ninteraction). <br> • Integrate\nSaaS infrastructure (user auth,\ntier handling).• Begin internal testing:\nsimulate data flows, run\nbacktests of trading agent\non historical data.\nFeb",
+    "interaction). <br> • Integrate\nSaaS infrastructure (user auth,\ntier handling).• Begin internal testing:\nsimulate data flows, run\nbacktests of trading agent\non historical data.\nFeb\n2026• Incorporate feedback\nfrom tests; documentation\nand handover notes.• Finalize integration of\nsentiment, analytics, and\ntrading modules. <br> •\nOptimize performance\n(database indexing, parallel\nagents).• Launch pilot with select\nusers : provide platform\naccess to a closed group.\nGather user feedback and\ntweak features. <br> •\nDemonstrate end-to-end\ntrading cycle (sentiment\nsignal → agent action) on\ntestnet/mainnet.\nThroughout this period, the team should follow agile sprints. Early focus is on foundational learnings and\narchitecture, shifting to implementation in January, and culminating in an integrated pilot by February.\nRegular reviews will ensure milestones are met and the platform is secure and functional for launch phases.\nSources: Industry reports and platform documentation .",
+    "Regular reviews will ensure milestones are met and the platform is secure and functional for launch phases.\nSources: Industry reports and platform documentation .\nLargest Blockchain Security Auditor - CertiK\nhttps://www.certik.com/\nTop tools to help you get started in DeFi | 20+ useful DeFi tools - MoonPay - MoonPay\nhttps://www.moonpay.com/learn/defi/top-defi-tools\nCrypto Research, Data, Tools - Explore Behavioral Analytics\nhttps://santiment.net/6 5 4 7 18 22 12 10 21 17 24 2\n1\n2 3\n4\n4",
+    "LunarCrush - DeFi Tools - Alchemy\nhttps://www.alchemy.com/dapps/lunarcrush\nAIQuant’s AI-Driven, High-Frequency Crypto Trading Platform Goes Live | FinTech Magazine\nhttps://fintechmagazine.com/globenewswire/3158149\nRoboFi Home (VICS) - The Most Reliable Crypto Trading Bots - RoboFi\nhttps://robofi.io/\nVirtuals Protocol | Society of AI Agents\nhttps://www.virtuals.io/\n10 Business Models SaaS: Top Trends for 2025\nhttps://blog.acquire.com/business-models-saas/\n2024 Global Crypto Adoption Index - Chainalysis\nhttps://www.chainalysis.com/blog/2024-global-crypto-adoption-index/\n2024 Trends: Crypto Adoption and Illicit Exposure by Country | TRM Blog\nhttps://www.trmlabs.com/resources/blog/2024-trends-crypto-adoption-and-illicit-activity-by-country\nCryptocurrency Ownership Data – Triple-A\nhttps://www.triple-a.io/cryptocurrency-ownership-data\nTutorial: Building a Live Crypto-Sentiment Analyzer with Python UDFs - RisingWave: Real-Time Event\nStreaming Platform",
+    "https://www.triple-a.io/cryptocurrency-ownership-data\nTutorial: Building a Live Crypto-Sentiment Analyzer with Python UDFs - RisingWave: Real-Time Event\nStreaming Platform\nhttps://risingwave.com/blog/risingwave-python-udf-tutorial/\nOn-Chain Analytics: Building DeFi Data Platforms | SCIEN | SCIEN\nhttps://www.scien.dev/blog/onchain-analytics-defi-data-platforms/\nThe Definitive Guide to On‑Chain App User Behavior Analytics\nhttps://formo.so/blog/analytics-tools-onchain-user-behavior\nAI Agents in Cryptocurrency: Architecture, Integration, and Best Practices | by Jung-Hua Liu | Nov,\n2025 | Medium\nhttps://medium.com/@gwrx2005/ai-agents-in-cryptocurrency-architecture-integration-and-best-practices-a107429bf7805\n6\n7\n8\n9\n10 11\n12 13\n14 15 16\n17\n18 19 20 21\n22\n23 24\n5",
+    "GREENFIELD UNIVERSITY\nACADEMIC POLICIES AND PROCEDURES HANDBOOK\nAcademic Year 2025-2026\nContents\n1 ACADEMIC INTEGRITY POLICY 3\n1.1 Definition of Academic Integrity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3\n1.2 Forms of Academic Dishonesty . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3\n1.3 Penalties for Academic Integrity Violations . . . . . . . . . . . . . . . . . . . . . . . . 3\n2 GRADING POLICIES 3\n2.1 Grade Scale . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3\n2.2 Grade Point Average (GPA) Requirements . . . . . . . . . . . . . . . . . . . . . . . . 4\n2.3 Incomplete Grades . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4\n2.4 Grade Appeals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4\n3 ATTENDANCE POLICIES 4\n3.1 Class Attendance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4",
+    "3 ATTENDANCE POLICIES 4\n3.1 Class Attendance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4\n3.2 Excused Absences . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4\n3.3 Attendance Impact on Grades . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5\n3.4 Tardiness Policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5\n4 REGISTRATION AND ENROLLMENT 5\n4.1 Course Registration . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5\n4.2 Credit Hour Limits . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5\n4.3 Add/Drop Deadlines . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5\n4.4 Course Withdrawal . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5\n5 ACADEMIC SUPPORT SERVICES 5\n5.1 Tutoring Center . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5",
+    "5 ACADEMIC SUPPORT SERVICES 5\n5.1 Tutoring Center . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5\n5.2 Writing Center . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6\n5.3 Math Lab . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6\n5.4 Disability Services . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6\n6 LIBRARY SERVICES 6\n6.1 Library Hours . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6\n6.2 Borrowing Privileges . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6\n6.3 Interlibrary Loan . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6\n6.4 Research Assistance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6\n7 STUDENT CONDUCT CODE 7\n1",
+    "7.1 General Conduct Expectations . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7\n7.2 Prohibited Conduct . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7\n7.3 Alcohol Policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7\n7.4 Drug Policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7\n8 RESIDENTIAL LIFE POLICIES 7\n8.1 Housing Requirements . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7\n8.2 Room and Board Rates (2025-2026) . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7\n8.3 Quiet Hours . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8\n8.4 Guest Policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8\n8.5 Room Inspection Policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8\n9 FINANCIAL AID AND SCHOLARSHIPS 8",
+    "8.5 Room Inspection Policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8\n9 FINANCIAL AID AND SCHOLARSHIPS 8\n9.1 Types of Financial Aid . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8\n9.2 Satisfactory Academic Progress (SAP) . . . . . . . . . . . . . . . . . . . . . . . . . . . 9\n9.3 Financial Aid Appeals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9\n10 HEALTH AND SAFETY 9\n10.1 Student Health Center . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9\n10.2 Immunization Requirements . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9\n10.3 Emergency Procedures . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9\n10.4 Campus Safety Services . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10\n11 TECHNOLOGY POLICIES 10\n11.1 Acceptable Use Policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10",
+    "11 TECHNOLOGY POLICIES 10\n11.1 Acceptable Use Policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10\n11.2 Email Policy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10\n11.3 Lab Hours . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10\n11.4 Wi-Fi Access . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10\n12 COMMENCEMENT AND GRADUATION 10\n12.1 Graduation Requirements . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10\n12.2 Latin Honors . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11\n12.3 Commencement Ceremony . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11\n12.4 Diploma and Transcript Requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11\n13 INTERNATIONAL STUDENTS 11",
+    "12.4 Diploma and Transcript Requests . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11\n13 INTERNATIONAL STUDENTS 11\n13.1 Visa Requirements . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11\n13.2 Employment Restrictions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11\n13.3 English Language Requirements . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11\n14 STUDENT ORGANIZATIONS 12\n14.1 Recognition Process . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12\n14.2 Organization Funding . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12\n14.3 Event Planning . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12\n14.4 Greek Life . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12\n15 ATHLETICS AND RECREATION 12",
+    "14.4 Greek Life . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12\n15 ATHLETICS AND RECREATION 12\n15.1 Varsity Athletics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12\n15.2 Athletic Eligibility . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13\n15.3 Recreation Center . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13\n15.4 Club Sports . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13\nCONTACT INFORMATION 13\n2",
+    "1ACADEMIC INTEGRITY POLICY\n1.1Definition of Academic Integrity\nAcademic integrity is the commitment to honest and responsible scholarship. All members of\ntheGreenfieldUniversitycommunityareexpectedtoupholdthehigheststandardsofacademic\nhonesty in all coursework, examinations, research, and scholarly activities.\n1.2Forms of Academic Dishonesty\nThe following are considered violations of academic integrity:\nPlagiarism: Presenting someone else’s ideas, words, or work as your own without proper at-\ntribution. This includes copying from books, articles, websites, other students’ work, or AI-\ngenerated content without citation.\nCheating: Using unauthorized materials, information, or aids during an examination or as-\nsignment. This includes looking at another student’s test, using hidden notes, or accessing\nprohibited electronic devices.\nFabrication: Falsifying or inventing any information, data, or citation in academic work. This",
+    "prohibited electronic devices.\nFabrication: Falsifying or inventing any information, data, or citation in academic work. This\nincludes making up sources, altering research results, or falsifying laboratory data.\nFacilitation: Helping another student commit an act of academic dishonesty, such as allowing\nsomeone to copy your work or taking an exam for another person.\nMultiple Submission: Submitting the same work for credit in more than one course without\nprior approval from all instructors involved.\n1.3Penalties for Academic Integrity Violations\n•First Offense: Written warning and mandatory completion of Academic Integrity Work-\nshop. The assignment in question will receive a grade of zero.\n•Second Offense: Automatic failure of the course (grade of F) and notation on academic\nrecord. Student must petition for removal after one year of good standing.\n•ThirdOffense: Suspensionfromtheuniversityforaminimumofoneacademicyear. Read-",
+    "record. Student must petition for removal after one year of good standing.\n•ThirdOffense: Suspensionfromtheuniversityforaminimumofoneacademicyear. Read-\nmission requires formal petition to the Academic Standards Committee.\n•Fourth Offense: Permanent expulsion from Greenfield University with notation on per-\nmanent academic record.\n2GRADING POLICIES\n2.1Grade Scale\nGreenfield University uses the following grade scale:\n•A+ (4.0): 97-100% - Exceptional performance\n•A (4.0):93-96% - Excellent performance\n•A- (3.7): 90-92% - Very good performance\n•B+ (3.3): 87-89% - Good performance\n•B (3.0):83-86% - Above average performance\n•B- (2.7): 80-82% - Satisfactory performance\n•C+ (2.3): 77-79% - Average performance\n•C (2.0):73-76% - Below average performance\n3",
+    "•C- (1.7): 70-72% - Minimum passing for major courses\n•D+ (1.3): 67-69% - Poor performance\n•D (1.0):63-66% - Minimum passing grade\n•D- (0.7): 60-62% - Marginal performance\n•F (0.0):Below 60% - Failing grade\n2.2Grade Point Average (GPA) Requirements\n•Good Academic Standing: Cumulative GPA of 2.0 or higher\n•Dean’s List: Semester GPA of 3.5 or higher with at least 12 credit hours\n•Academic Probation: Cumulative GPA below 2.0\n•Academic Dismissal: Three consecutive semesters on probation or GPA below 1.5\n2.3Incomplete Grades\nAnIncomplete(I)grademaybeassignedwhenastudentisunabletocompletecourserequire-\nments due to circumstances beyond their control (illness, family emergency, etc.). Require-\nments:\n•Student must be passing the course at the time of the request\n•At least 75% of coursework must be completed\n•Written agreement between student and instructor required\n•Work must be completed within one semester or grade converts to F\n2.4Grade Appeals",
+    "•At least 75% of coursework must be completed\n•Written agreement between student and instructor required\n•Work must be completed within one semester or grade converts to F\n2.4Grade Appeals\nStudents may appeal a final grade within 30 days of grade posting. The appeal process is:\n1.Informal discussion with the instructor\n2.Written appeal to the Department Chair\n3.Formal appeal to the Academic Appeals Committee\n4.Final appeal to the Provost (decision is binding)\n3ATTENDANCE POLICIES\n3.1Class Attendance\nRegularattendanceisexpectedinallcourses. Studentsareresponsibleforallmaterialcovered\nin class, regardless of attendance.\n3.2Excused Absences\nThe following are considered excused absences with proper documentation:\n•Illness requiring medical attention (doctor’s note required)\n•Death in immediate family (up to 5 days)\n•University-sponsored activities (athletics, debate, etc.)\n•Religious observances (advance notice required)\n•Jury duty or court appearance (official documentation required)",
+    "•University-sponsored activities (athletics, debate, etc.)\n•Religious observances (advance notice required)\n•Jury duty or court appearance (official documentation required)\n•Military service obligations (official orders required)\n4",
+    "3.3Attendance Impact on Grades\nIndividual instructors set their own attendance policies, which must be clearly stated in the\ncourse syllabus. However, excessive absences (missing more than 20% of class sessions) may\nresult in automatic course failure at the instructor’s discretion.\n3.4Tardiness Policy\nArriving more than 10 minutes late to class may be counted as an absence. Three instances of\ntardiness equal one absence.\n4REGISTRATION AND ENROLLMENT\n4.1Course Registration\nStudents must register for courses during the designated registration period. Priority registra-\ntion is available for:\n•Seniors (90+ credit hours)\n•Juniors (60-89 credit hours)\n•Sophomores (30-59 credit hours)\n•Freshmen (0-29 credit hours)\n4.2Credit Hour Limits\n•Minimum full-time enrollment: 12 credit hours per semester\n•Maximum enrollment: 18 credit hours per semester\n•Overload (19+ hours): Requires GPA of 3.0 or higher and advisor approval\n4.3Add/Drop Deadlines",
+    "•Maximum enrollment: 18 credit hours per semester\n•Overload (19+ hours): Requires GPA of 3.0 or higher and advisor approval\n4.3Add/Drop Deadlines\n•Add courses: First two weeks of the semester (no approval needed)\n•Drop courses with full refund: First two weeks\n•Drop courses with W grade: Weeks 3-10\n•After Week 10: Drop requires petition and rarely approved\n4.4Course Withdrawal\nA grade of W (Withdrawal) will appear on the transcript for courses dropped after the second\nweek. Students are limited to 6 W grades during their academic career. Exceeding this limit\nrequires petition.\n5ACADEMIC SUPPORT SERVICES\n5.1Tutoring Center\nThe Academic Success Center provides free tutoring in most subjects.\nHours:Monday-Thursday 9am-9pm, Friday 9am-5pm, Sunday 2pm-8pm.\nLocation: Library, 2nd Floor.\n5",
+    "5.2Writing Center\nThe Writing Center offers one-on-one consultations for any stage of the writing process. Ap-\npointments can be made online or walk-in.\nLocation: Humanities Building, Room 205.\n5.3Math Lab\nDrop-in mathematics tutoring available for all math and statistics courses. No appointment\nnecessary.\nLocation: Science Building, Room 110.\n5.4Disability Services\nStudentswithdocumenteddisabilitiesmayrequestaccommodationsthroughtheOfficeofDis-\nability Services. Requests should be submitted at least two weeks before accommodations are\nneeded. Common accommodations include:\n•Extended test time (typically time and a half)\n•Separate testing environment\n•Note-taking services\n•Audio textbooks\n•Sign language interpreters\n6LIBRARY SERVICES\n6.1Library Hours\n•Monday-Thursday: 7:00 AM - 2:00 AM\n•Friday: 7:00 AM - 10:00 PM\n•Saturday: 9:00 AM - 10:00 PM\n•Sunday: 10:00 AM - 2:00 AM\n•Extended hours during finals: 24 hours\n6.2Borrowing Privileges\n•Undergraduates: 20 items for 28 days",
+    "•Friday: 7:00 AM - 10:00 PM\n•Saturday: 9:00 AM - 10:00 PM\n•Sunday: 10:00 AM - 2:00 AM\n•Extended hours during finals: 24 hours\n6.2Borrowing Privileges\n•Undergraduates: 20 items for 28 days\n•Graduate students: 50 items for 90 days\n•Faculty: 100 items for one semester\n•Overdue fines: $0.25/day for regular items, $5.00/day for reserve items\n6.3Interlibrary Loan\nMaterials not available in the Greenfield University Library can be requested through Interli-\nbrary Loan (ILL). Processing time is typically 5-10 business days. Journal articles are delivered\nelectronically. Books are delivered to the circulation desk.\n6.4Research Assistance\nReference librarians are available for research consultations. Schedule appointments through\nthe library website or visit the Reference Desk.\n6",
+    "7STUDENT CONDUCT CODE\n7.1General Conduct Expectations\nAll students are expected to:\n•Treat all community members with respect and dignity\n•Comply with all university policies and procedures\n•Follow all federal, state, and local laws\n•Maintain a safe and inclusive campus environment\n7.2Prohibited Conduct\nThe following behaviors are strictly prohibited:\n•Harassment or discrimination based on protected characteristics\n•Physical violence or threats of violence\n•Possession or use of weapons on campus\n•Possession or use of illegal drugs\n•Underage drinking or providing alcohol to minors\n•Theft or vandalism of university or personal property\n•Disruption of university operations or academic activities\n•Unauthorized access to university buildings or systems\n•Hazing of any kind\n•Sexual misconduct\n7.3Alcohol Policy\nStudentsoflegaldrinkingage(21+)maypossessandconsumealcoholindesignatedareasonly\n(private residence halls, approved campus events). Public intoxication and providing alcohol to",
+    "7.3Alcohol Policy\nStudentsoflegaldrinkingage(21+)maypossessandconsumealcoholindesignatedareasonly\n(private residence halls, approved campus events). Public intoxication and providing alcohol to\nminors will result in disciplinary action.\n7.4Drug Policy\nThe possession, use, sale, or distribution of illegal drugs or controlled substances is strictly\nprohibited. Violations may result in suspension, expulsion, and referral to law enforcement.\n8RESIDENTIAL LIFE POLICIES\n8.1Housing Requirements\nAll first-year and second-year students are required to live on campus unless they:\n•Live with a parent or legal guardian within 30 miles\n•Are married or have dependent children\n•Are 21 years of age or older\n•Have completed 60 or more credit hours\n8.2Room and Board Rates (2025-2026)\n•Traditional Double Room: $4,500 per semester\n•Traditional Single Room: $5,800 per semester\n7",
+    "•Suite-Style Double: $5,200 per semester\n•Suite-Style Single: $6,500 per semester\n•Apartment (per person): $7,000 per semester\n•Meal Plans: $2,500 - $4,000 per semester\n8.3Quiet Hours\n•Sunday-Thursday: 10:00 PM - 8:00 AM\n•Friday-Saturday: 12:00 AM - 10:00 AM\n•24-hour quiet hours during finals week\n•Courtesy hours apply at all times\n8.4Guest Policy\nGuests must be registered at the front desk. Overnight guests:\n•Limited to 3 consecutive nights\n•Maximum of 6 nights per month\n•Roommate approval required\n•Guests under 18 require special permission\n8.5Room Inspection Policy\nResidence hall staff may enter rooms for:\n•Health and safety inspections (announced, monthly)\n•Emergency situations\n•Suspected policy violations (with appropriate authorization)\n•Maintenance requests\n9FINANCIAL AID AND SCHOLARSHIPS\n9.1Types of Financial Aid\nGrants: Need-based aid that does not require repayment\n•Federal Pell Grant: Up to $7,395 per year\n•Federal SEOG: Up to $4,000 per year",
+    "9FINANCIAL AID AND SCHOLARSHIPS\n9.1Types of Financial Aid\nGrants: Need-based aid that does not require repayment\n•Federal Pell Grant: Up to $7,395 per year\n•Federal SEOG: Up to $4,000 per year\n•Greenfield University Grant: Variable based on need\nScholarships: Merit-based or need-based awards\n•Presidential Scholarship: Full tuition for students with 3.9+ GPA and 1500+ SAT\n•Dean’s Scholarship: $15,000/year for students with 3.7+ GPA and 1400+ SAT\n•Achievement Scholarship: $10,000/year for students with 3.5+ GPA and 1300+ SAT\n•Departmental Scholarships: Various amounts based on major\nLoans:Borrowed funds that must be repaid\n•Federal Direct Subsidized Loan: Interest-free while enrolled\n•Federal Direct Unsubsidized Loan: Interest accrues while enrolled\n•Federal PLUS Loan: For parents of dependent students\n•Private Loans: Various terms and rates\nWork-Study: Part-time employment on campus\n8",
+    "•Average 10-15 hours per week\n•Minimum wage guaranteed\n•Jobs in library, dining, recreation, offices\n9.2Satisfactory Academic Progress (SAP)\nTo maintain financial aid eligibility:\n•Minimum GPA: 2.0\n•Completion rate: 67% of attempted credits\n•Maximum time frame: 150% of program length (180 credits for bachelor’s)\n9.3Financial Aid Appeals\nStudents who lose eligibility may appeal based on:\n•Medical emergency (documentation required)\n•Death of immediate family member\n•Other extenuating circumstances\n10HEALTH AND SAFETY\n10.1Student Health Center\nThe Student Health Center provides medical services to all enrolled students. Services include:\n•Primary care visits (free with student health fee)\n•Immunizations\n•Laboratory testing\n•Mental health counseling (first 12 sessions free)\n•Sexual health services\n•Physical examinations for sports and study abroad\nHours:Monday-Friday 8:00 AM - 6:00 PM, urgent care available 24/7\n10.2Immunization Requirements\nAll students must provide proof of:",
+    "•Physical examinations for sports and study abroad\nHours:Monday-Friday 8:00 AM - 6:00 PM, urgent care available 24/7\n10.2Immunization Requirements\nAll students must provide proof of:\n•MMR (Measles, Mumps, Rubella): 2 doses\n•Meningitis: ACWY vaccine within 5 years\n•Tetanus/Diphtheria: Within 10 years\n•COVID-19: Fully vaccinated or approved exemption\n10.3Emergency Procedures\nFire:Evacuate immediately using nearest exit. Do not use elevators. Proceed to designated\nassembly point.\nTornado: Move to lowest interior floor, away from windows. Residence halls have designated\ntornado shelters.\nActive Threat: Run, Hide, Fight. Follow campus alerts and law enforcement instructions.\n9",
+    "Medical Emergency: Call Campus Safety (555-SAFE) or 911. Do not move injured persons un-\nless necessary.\n10.4Campus Safety Services\n•24/7 campus police patrol\n•Blue light emergency phones across campus\n•SafeWalk escort service (call 555-WALK)\n•Free safety app with GPS tracking and emergency alerts\n11TECHNOLOGY POLICIES\n11.1Acceptable Use Policy\nUniversity technology resources are provided for educational purposes. Users must:\n•Use resources responsibly and legally\n•Protect their passwords and account access\n•Respect intellectual property rights\n•Not engage in harassment or distribute harmful content\n•Not attempt to access systems without authorization\n11.2Email Policy\n•All official university communication sent to student email\n•Students are responsible for checking email daily\n•Email is retained for 10 years after graduation\n11.3Lab Hours\nComputer labs are located in the Library, Science Building, and Student Union.\n•Most labs: 8:00 AM - 12:00 AM daily",
+    "•Email is retained for 10 years after graduation\n11.3Lab Hours\nComputer labs are located in the Library, Science Building, and Student Union.\n•Most labs: 8:00 AM - 12:00 AM daily\n•Library lab: Same hours as library\n•Printing: 500 pages free per semester, $0.05/page after\n11.4Wi-Fi Access\nCampus-wide Wi-Fi available. Connect to:\n•GU-Secure: For students, faculty, staff (requires credentials)\n•GU-Guest: For visitors (limited bandwidth, 4-hour sessions)\n12COMMENCEMENT AND GRADUATION\n12.1Graduation Requirements\nTo graduate with a bachelor’s degree, students must:\n•Complete a minimum of 120 credit hours\n•Maintain a cumulative GPA of 2.0 or higher\n•Complete all major and minor requirements\n10",
+    "•Complete general education requirements (48 credits)\n•Complete at least 30 credits at Greenfield University\n•Have no outstanding financial obligations\n12.2Latin Honors\n•Summa Cum Laude: GPA of 3.9 or higher\n•Magna Cum Laude: GPA of 3.7 to 3.89\n•Cum Laude: GPA of 3.5 to 3.69\n12.3Commencement Ceremony\nCommencementisheldinMayforspringgraduatesandDecemberforfallgraduates. Students\nmust:\n•Apply for graduation by the deadline (60 days before ceremony)\n•Pay graduation fee ($150)\n•Order regalia by the deadline\n•Attend commencement rehearsal\n12.4Diploma and Transcript Requests\nOfficialdiplomasaremailed6-8weeksafterdegreeconferral. Officialtranscriptscanbeordered\nonline ($10 per copy, $25 for rush delivery).\n13INTERNATIONAL STUDENTS\n13.1Visa Requirements\nInternational students must maintain valid F-1 or J-1 visa status. This requires:\n•Full-time enrollment (minimum 12 credits per semester)\n•Maintaining valid passport (at least 6 months validity)\n•Reporting address changes within 10 days",
+    "•Full-time enrollment (minimum 12 credits per semester)\n•Maintaining valid passport (at least 6 months validity)\n•Reporting address changes within 10 days\n•Reporting program changes to International Student Services\n13.2Employment Restrictions\nF-1 students may work:\n•On campus: Up to 20 hours/week during semester, 40 hours during breaks\n•CPT (Curricular Practical Training): Must be part of curriculum\n•OPT (Optional Practical Training): 12 months after graduation\n13.3English Language Requirements\nNon-native English speakers must demonstrate proficiency:\n•TOEFL iBT: Minimum 80\n•IELTS Academic: Minimum 6.5\n•Duolingo English Test: Minimum 110\n•Or completion of university’s Intensive English Program\n11",
+    "14STUDENT ORGANIZATIONS\n14.1Recognition Process\nTo become a recognized student organization:\n1.Complete registration form online\n2.Have at least 5 current students as members\n3.Identify a faculty or staff advisor\n4.Submit constitution and bylaws\n5.Attend organization training session\n6.Re-register annually\n14.2Organization Funding\nFunding available through Student Government:\n•Annual allocations (based on membership and activity level)\n•Event funding requests (submit 4 weeks in advance)\n•Travel grants (for conferences and competitions)\n•Emergency funding (case-by-case basis)\n14.3Event Planning\nAll events must be:\n•Registered through the Events Office (2 weeks advance)\n•Comply with fire safety regulations\n•Have proper security (for events over 50 people)\n•Submit alcohol permit if applicable\n14.4Greek Life\nGreenfield University has 12 fraternities and 10 sororities. Greek organizations must:\n•Maintain chapter GPA of 2.5 or higher",
+    "•Submit alcohol permit if applicable\n14.4Greek Life\nGreenfield University has 12 fraternities and 10 sororities. Greek organizations must:\n•Maintain chapter GPA of 2.5 or higher\n•Complete community service requirements (20 hours/member/semester)\n•Adhere to anti-hazing policies\n•Register all events with Greek Life Office\n15ATHLETICS AND RECREATION\n15.1Varsity Athletics\nGreenfield University competes in NCAA Division II. Sports offered:\n•Fall: Football, Soccer (M/W), Volleyball (W), Cross Country (M/W)\n•Winter: Basketball (M/W), Swimming (M/W), Wrestling (M)\n•Spring: Baseball (M), Softball (W), Tennis (M/W), Track & Field (M/W)\n12",
+    "15.2Athletic Eligibility\nStudent athletes must:\n•Maintain full-time enrollment\n•Maintain GPA of 2.0 or higher\n•Complete 24 credits per academic year\n•Pass NCAA eligibility requirements\n15.3Recreation Center\nThe Recreation Center is free for all students with valid ID.\n•Hours: Monday-Friday 6:00 AM - 11:00 PM, Weekends 8:00 AM - 10:00 PM\n•Facilities: Gym, pool, rock climbing wall, group fitness studios, indoor track\n•Intramural sports: Flag football, soccer, basketball, volleyball, dodgeball, and more\n15.4Club Sports\nClub sports are student-run competitive teams. Current clubs include:\n•Rugby, Lacrosse, Ice Hockey, Ultimate Frisbee, Equestrian, Fencing, Rowing, Cycling\nCONTACT INFORMATION\nOffice of the Registrar\nGreen Hall, Room 100\nPhone: (555) 123-4567\nEmail:registrar@greenfield.edu\nFinancial Aid Office\nGreen Hall, Room 200\nPhone: (555) 123-4568\nEmail:finaid@greenfield.edu\nStudent Life Office\nStudent Union, Room 300\nPhone: (555) 123-4569\nEmail:studentlife@greenfield.edu",
+    "Financial Aid Office\nGreen Hall, Room 200\nPhone: (555) 123-4568\nEmail:finaid@greenfield.edu\nStudent Life Office\nStudent Union, Room 300\nPhone: (555) 123-4569\nEmail:studentlife@greenfield.edu\nAcademic Advising Center\nLibrary, 1st Floor\nPhone: (555) 123-4570\nEmail:advising@greenfield.edu\nCampus Safety\nEmergency: 911 or (555) 555-SAFE\nNon-emergency: (555) 123-4571\n13",
+    "This handbook is subject to change. The most current version is always available online at www.greenfield.\nedu/policies . Last updated: August 2025.\n14"
+  ],
+  "metadatas": [
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 0,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 1,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 2,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 3,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 4,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 5,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 6,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 7,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 8,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 9,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 10,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 11,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 12,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 13,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 14,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 15,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "8c916ab8-0300-4584-927f-064178f0b5ca",
+      "filename": "Decentralized Crypto Safety & Autonomous Trading Platform – Research Summary.pdf",
+      "chunk_index": 16,
+      "total_chunks": 17
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 0,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 1,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 2,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 3,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 4,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 5,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 6,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 7,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 8,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 9,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 10,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 11,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 12,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 13,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 14,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 15,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 16,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 17,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 18,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 19,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 20,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 21,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 22,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 23,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 24,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 25,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 26,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 27,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 28,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 29,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 30,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 31,
+      "total_chunks": 33
+    },
+    {
+      "document_id": "e06189ad-2f7e-461a-8589-ad07d72ad08b",
+      "filename": "Greenfield University Handbook.pdf",
+      "chunk_index": 32,
+      "total_chunks": 33
+    }
+  ],
+  "ids": [
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_0",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_1",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_2",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_3",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_4",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_5",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_6",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_7",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_8",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_9",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_10",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_11",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_12",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_13",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_14",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_15",
+    "8c916ab8-0300-4584-927f-064178f0b5ca_chunk_16",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_0",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_1",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_2",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_3",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_4",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_5",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_6",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_7",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_8",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_9",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_10",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_11",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_12",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_13",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_14",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_15",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_16",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_17",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_18",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_19",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_20",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_21",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_22",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_23",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_24",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_25",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_26",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_27",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_28",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_29",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_30",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_31",
+    "e06189ad-2f7e-461a-8589-ad07d72ad08b_chunk_32"
+  ]
+}
