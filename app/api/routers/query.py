@@ -45,7 +45,7 @@ async def query(
     4. Return the answer with source documents
     """
     try:
-        response = rag_service.query(
+        response = await rag_service.query(
             query=request.query,
             session_id=request.session_id,
             include_sources=request.include_sources,

@@ -18,7 +18,8 @@ logger = get_logger(__name__)
 # System prompt for the RAG chatbot
 DEFAULT_SYSTEM_PROMPT = """You are a helpful assistant. Answer questions using the provided context.
 RULES:
-- For greetings like "hi" or "hello": respond with "Hello! How can I help you today?"
+- For greetings like just "hi" or "hello": respond with "Hello! How can I help you today? "
+- For messages with greeting like "Hi tell me about the university" respond with the greeting and then the answer
 - Give SHORT, direct answers
 - If you don't know: say "I don't have that information"
 """
@@ -80,7 +81,7 @@ class LLMService:
                 raise LLMError(f"Failed to initialize LLM: {e}")
         return self._llm
 
-    def generate_response(
+    async def generate_response(
         self,
         query: str,
         context: str,
@@ -117,8 +118,8 @@ class LLMService:
             user_content = CONTEXT_TEMPLATE.format(context=context, query=query)
             messages.append(HumanMessage(content=user_content))
             
-            # Generate response
-            response = self.llm.invoke(messages)
+            # Generate response (non-blocking)
+            response = await self.llm.ainvoke(messages)
             
             logger.info(
                 "response_generated",

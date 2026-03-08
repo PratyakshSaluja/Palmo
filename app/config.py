@@ -111,7 +111,7 @@ class Settings(BaseSettings):
     # RAG Configuration
     # ===========================================
     retriever_k: int = Field(
-        default=4,
+        default=6,
         ge=1,
         le=20,
         description="Number of documents to retrieve",
