@@ -16,7 +16,7 @@ from app.services.vector_store_service import VectorStoreService
 logger = get_logger(__name__)
 
 # Chunks with distance above this threshold are too dissimilar to be useful
-RELEVANCE_DISTANCE_THRESHOLD = 0.5
+RELEVANCE_DISTANCE_THRESHOLD = 0.7
 
 # Patterns that indicate a vague follow-up needing query expansion
 VAGUE_PATTERNS = ["tell me more", "more about", "explain more", "what about"]

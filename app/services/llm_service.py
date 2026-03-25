@@ -1,12 +1,12 @@
 """
 LLM service for interacting with language models.
-Uses Groq for fast inference with Llama models.
+Uses Google Gemini for inference.
 """
 
 from typing import AsyncGenerator, List, Optional
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
-from langchain_groq import ChatGroq
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 from app.config import Settings
 from app.core.exceptions import LLMError
@@ -38,8 +38,8 @@ Answer briefly:"""
 class LLMService:
     """
     Service for interacting with language models.
-    
-    Provides methods for generating responses using the Groq API.
+
+    Provides methods for generating responses using the Gemini API.
     """
 
     def __init__(
@@ -65,15 +65,15 @@ class LLMService:
         )
 
     @property
-    def llm(self) -> ChatGroq:
+    def llm(self) -> ChatGoogleGenerativeAI:
         """Get or create the LLM instance."""
         if self._llm is None:
             try:
-                self._llm = ChatGroq(
-                    api_key=self.settings.groq_api_key,
-                    model_name=self.settings.llm_model_name,
+                self._llm = ChatGoogleGenerativeAI(
+                    google_api_key=self.settings.gemini_api_key,
+                    model=self.settings.llm_model_name,
                     temperature=self.settings.llm_temperature,
-                    max_tokens=self.settings.llm_max_tokens,
+                    max_output_tokens=self.settings.llm_max_tokens,
                 )
                 logger.info("llm_model_loaded", model=self.settings.llm_model_name)
             except Exception as e:
@@ -110,7 +110,7 @@ class LLMService:
             
             # Add chat history if provided
             if chat_history:
-                for user_msg, ai_msg in chat_history[-5:]:
+                for user_msg, ai_msg in chat_history[-10:]:
                     messages.append(HumanMessage(content=user_msg))
                     messages.append(AIMessage(content=ai_msg))
             
@@ -163,7 +163,7 @@ class LLMService:
             
             # Add chat history if provided
             if chat_history:
-                for user_msg, ai_msg in chat_history[-5:]:
+                for user_msg, ai_msg in chat_history[-10:]:
                     messages.append(HumanMessage(content=user_msg))
                     messages.append(AIMessage(content=ai_msg))
             

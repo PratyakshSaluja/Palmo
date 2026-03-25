@@ -3,10 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+
 # Virtual environments
 venv/
 .venv/
 env/
+data/faiss_index/*
+!data/faiss_index/.gitkeep
 
 # Environment variables
 .env
@@ -34,3 +37,4 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+

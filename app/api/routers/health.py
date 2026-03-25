@@ -81,7 +81,7 @@ async def get_stats(
     return StatsResponse(
         total_documents=stats.get("total_documents", 0),
         total_chunks=stats.get("total_chunks", 0),
-        collection_name=stats.get("collection_name", settings.chroma_collection_name),
+        collection_name=stats.get("collection_name", "faiss_index"),
         embedding_model=settings.embedding_model_name,
         llm_model=settings.llm_model_name,
     )

@@ -24,10 +24,10 @@ class Settings(BaseSettings):
     # ===========================================
     # LLM Configuration
     # ===========================================
-    groq_api_key: str = Field(..., description="Groq API key for LLM access")
+    gemini_api_key: str = Field(..., description="Google Gemini API key for LLM access")
     llm_model_name: str = Field(
-        default="llama3-70b-8192",
-        description="Groq model name to use",
+        default="gemini-2.0-flash",
+        description="Gemini model name to use",
     )
     llm_temperature: float = Field(
         default=0.1,
@@ -57,13 +57,9 @@ class Settings(BaseSettings):
     # ===========================================
     # Vector Store Configuration (FAISS)
     # ===========================================
-    chroma_persist_dir: Path = Field(
+    faiss_persist_dir: Path = Field(
         default=Path("./data/faiss_index"),
         description="FAISS index persistence directory",
-    )
-    chroma_collection_name: str = Field(
-        default="university_docs",
-        description="Collection name (for compatibility)",
     )
 
     # ===========================================
@@ -117,7 +113,7 @@ class Settings(BaseSettings):
         description="Number of documents to retrieve",
     )
 
-    @field_validator("chroma_persist_dir", "upload_dir", mode="before")
+    @field_validator("faiss_persist_dir", "upload_dir", mode="before")
     @classmethod
     def ensure_path(cls, v):
         """Convert string to Path if needed."""
@@ -141,7 +137,7 @@ class Settings(BaseSettings):
 
     def ensure_directories(self) -> None:
         """Ensure required directories exist."""
-        self.chroma_persist_dir.mkdir(parents=True, exist_ok=True)
+        self.faiss_persist_dir.mkdir(parents=True, exist_ok=True)
         self.upload_dir.mkdir(parents=True, exist_ok=True)
 
 

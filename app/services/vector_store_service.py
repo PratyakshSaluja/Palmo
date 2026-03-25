@@ -40,8 +40,8 @@ class VectorStoreService:
         self.embedding_service = embedding_service
         
         # Paths for persistence
-        self.index_path = settings.chroma_persist_dir / "faiss.index"
-        self.metadata_path = settings.chroma_persist_dir / "metadata.json"
+        self.index_path = settings.faiss_persist_dir / "faiss.index"
+        self.metadata_path = settings.faiss_persist_dir / "metadata.json"
         
         # In-memory storage
         self._index: Optional[faiss.IndexFlatIP] = None  # Inner product for cosine similarity
@@ -54,7 +54,7 @@ class VectorStoreService:
         
         logger.info(
             "vector_store_service_initialized",
-            persist_dir=str(settings.chroma_persist_dir),
+            persist_dir=str(settings.faiss_persist_dir),
             index_exists=self._index is not None,
         )
 
