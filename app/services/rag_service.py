@@ -16,7 +16,6 @@ from app.services.vector_store_service import VectorStoreService
 logger = get_logger(__name__)
 
 # Chunks with distance above this threshold are too dissimilar to be useful
-RELEVANCE_DISTANCE_THRESHOLD = 0.7
 
 # Patterns that indicate a vague follow-up needing query expansion
 VAGUE_PATTERNS = ["tell me more", "more about", "explain more", "what about"]
@@ -94,19 +93,14 @@ class RAGService:
             # Expand vague follow-up queries using previous turn's topic
             search_query = self._expand_query(query, chat_history)
 
-            # Retrieve relevant documents — over-fetch then trim after filtering
+            # Retrieve top-k documents
             k = top_k or self.settings.retriever_k
-            fetch_k = k * 2
-            logger.info("retrieving_documents", k=k, fetch_k=fetch_k)
+            logger.info("retrieving_documents", k=k)
 
             search_results = self.vector_store.query(
                 query_text=search_query,
-                n_results=fetch_k,
+                n_results=k,
             )
-
-            # Filter out low-relevance chunks, then trim to k
-            search_results = self._filter_by_relevance(search_results)
-            search_results = self._trim_results(search_results, k)
 
             num_docs = len(search_results.get("documents", []))
             logger.info("retrieved_documents_count", count=num_docs)
@@ -192,17 +186,12 @@ class RAGService:
             # Expand vague follow-up queries using previous turn's topic
             search_query = self._expand_query(query, chat_history)
 
-            # Retrieve relevant documents — over-fetch then trim after filtering
+            # Retrieve top-k documents
             k = top_k or self.settings.retriever_k
-            fetch_k = k * 2
             search_results = self.vector_store.query(
                 query_text=search_query,
-                n_results=fetch_k,
+                n_results=k,
             )
-
-            # Filter out low-relevance chunks, then trim to k
-            search_results = self._filter_by_relevance(search_results)
-            search_results = self._trim_results(search_results, k)
 
             if not search_results.get("documents"):
                 yield "I don't have any relevant information to answer your question."
@@ -253,44 +242,6 @@ class RAGService:
             return expanded
         return query
 
-    def _filter_by_relevance(
-        self,
-        search_results: Dict[str, Any],
-        threshold: float = RELEVANCE_DISTANCE_THRESHOLD,
-    ) -> Dict[str, Any]:
-        """
-        Remove chunks whose distance exceeds the relevance threshold.
-
-        Args:
-            search_results: Raw results from vector_store.query().
-            threshold: Maximum acceptable distance (lower = more similar).
-
-        Returns:
-            Filtered search results dict with only relevant chunks.
-        """
-        ids = search_results.get("ids", [])
-        documents = search_results.get("documents", [])
-        metadatas = search_results.get("metadatas", [])
-        distances = search_results.get("distances", [])
-
-        filtered: Dict[str, Any] = {"ids": [], "documents": [], "metadatas": [], "distances": []}
-        for i in range(len(ids)):
-            dist = distances[i] if i < len(distances) else 1.0
-            if dist <= threshold:
-                filtered["ids"].append(ids[i])
-                filtered["documents"].append(documents[i])
-                filtered["metadatas"].append(metadatas[i] if i < len(metadatas) else {})
-                filtered["distances"].append(dist)
-
-        if len(filtered["ids"]) < len(ids):
-            logger.info(
-                "relevance_filtered",
-                original=len(ids),
-                kept=len(filtered["ids"]),
-                threshold=threshold,
-            )
-
-        return filtered
 
     def _build_context(self, search_results: Dict[str, Any]) -> str:
         """
@@ -344,15 +295,6 @@ class RAGService:
 
         return sources
 
-    def _trim_results(self, search_results: Dict[str, Any], k: int) -> Dict[str, Any]:
-        """Trim all lists in search_results to at most k entries."""
-        return {
-            "ids": search_results.get("ids", [])[:k],
-            "documents": search_results.get("documents", [])[:k],
-            "metadatas": search_results.get("metadatas", [])[:k],
-            "distances": search_results.get("distances", [])[:k],
-        }
-
     def _is_history_query(self, query: str) -> bool:
         """Return True if the query is asking about the conversation history."""
         q = query.lower()
@@ -368,11 +310,8 @@ class RAGService:
         if not chat_history:
             answer = "There is no previous conversation in this session."
         else:
-            last_user, last_assistant = chat_history[-1]
-            answer = (
-                f"Your previous question was: \"{last_user}\"\n\n"
-                f"My answer was: {last_assistant}"
-            )
+            last_user, _ = chat_history[-1]
+            answer = f"Your last question was: \"{last_user}\""
         logger.info("answered_from_history", session_id=session_id)
         return QueryResponse(
             answer=answer,
