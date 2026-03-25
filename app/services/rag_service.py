@@ -11,6 +11,7 @@ from app.core.exceptions import QueryError
 from app.core.logging import get_logger
 from app.models.schemas import QueryResponse, SourceDocument
 from app.services.llm_service import LLMService
+from app.services.semantic_cache import SemanticCache
 from app.services.vector_store_service import VectorStoreService
 
 logger = get_logger(__name__)
@@ -44,6 +45,7 @@ class RAGService:
         self.settings = settings
         self.vector_store = vector_store
         self.llm_service = llm_service
+        self.semantic_cache = SemanticCache(vector_store.embedding_service)
 
         # Session-based conversation history
         # In production, use Redis or database
@@ -90,6 +92,17 @@ class RAGService:
             if self._is_history_query(query):
                 return self._answer_from_history(query, chat_history, session_id)
 
+            # Check semantic cache before retrieval + LLM call
+            cached = self.semantic_cache.get(query)
+            if cached is not None:
+                self._update_history(session_id, query, cached)
+                return QueryResponse(
+                    answer=cached,
+                    sources=[],
+                    session_id=session_id,
+                    query=query,
+                )
+
             # Expand vague follow-up queries using previous turn's topic
             search_query = self._expand_query(query, chat_history)
 
@@ -123,6 +136,9 @@ class RAGService:
                 context=context,
                 chat_history=chat_history,
             )
+
+            # Store in semantic cache for future similar queries
+            self.semantic_cache.set(query, answer)
 
             # Update conversation history
             self._update_history(session_id, query, answer)

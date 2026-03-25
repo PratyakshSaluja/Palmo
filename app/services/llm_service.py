@@ -5,8 +5,6 @@ Uses Google Gemini for inference.
 
 from typing import AsyncGenerator, List, Optional
 
-from langchain_community.cache import SQLiteCache
-from langchain_core.globals import set_llm_cache
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
@@ -15,9 +13,6 @@ from app.core.exceptions import LLMError
 from app.core.logging import get_logger
 
 logger = get_logger(__name__)
-
-# Persistent LLM response cache — avoids re-calling Gemini for identical prompts
-set_llm_cache(SQLiteCache(database_path="./data/llm_cache.db"))
 
 
 # System prompt for PalmBuddy
