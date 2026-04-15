@@ -11,15 +11,11 @@ from app.core.exceptions import QueryError
 from app.core.logging import get_logger
 from app.models.schemas import QueryResponse, SourceDocument
 from app.services.llm_service import LLMService
-from app.services.semantic_cache import SemanticCache
 from app.services.vector_store_service import VectorStoreService
 
 logger = get_logger(__name__)
 
 # Chunks with distance above this threshold are too dissimilar to be useful
-
-# Patterns that indicate a vague follow-up needing query expansion
-VAGUE_PATTERNS = ["tell me more", "more about", "explain more", "what about"]
 
 # Patterns that indicate a meta-question about the conversation itself
 HISTORY_PATTERNS = [
@@ -45,7 +41,6 @@ class RAGService:
         self.settings = settings
         self.vector_store = vector_store
         self.llm_service = llm_service
-        self.semantic_cache = SemanticCache(vector_store.embedding_service)
 
         # Session-based conversation history
         # In production, use Redis or database
@@ -92,19 +87,8 @@ class RAGService:
             if self._is_history_query(query):
                 return self._answer_from_history(query, chat_history, session_id)
 
-            # Check semantic cache before retrieval + LLM call
-            cached = self.semantic_cache.get(query)
-            if cached is not None:
-                self._update_history(session_id, query, cached)
-                return QueryResponse(
-                    answer=cached,
-                    sources=[],
-                    session_id=session_id,
-                    query=query,
-                )
-
-            # Expand vague follow-up queries using previous turn's topic
-            search_query = self._expand_query(query, chat_history)
+            # Rewrite follow-up queries into standalone form using chat history
+            search_query = await self.llm_service.condense_query(query, chat_history)
 
             # Retrieve top-k documents
             k = top_k or self.settings.retriever_k
@@ -136,9 +120,6 @@ class RAGService:
                 context=context,
                 chat_history=chat_history,
             )
-
-            # Store in semantic cache for future similar queries
-            self.semantic_cache.set(query, answer)
 
             # Update conversation history
             self._update_history(session_id, query, answer)
@@ -199,8 +180,8 @@ class RAGService:
                 yield result.answer
                 return
 
-            # Expand vague follow-up queries using previous turn's topic
-            search_query = self._expand_query(query, chat_history)
+            # Rewrite follow-up queries into standalone form using chat history
+            search_query = await self.llm_service.condense_query(query, chat_history)
 
             # Retrieve top-k documents
             k = top_k or self.settings.retriever_k
@@ -239,25 +220,6 @@ class RAGService:
         except Exception as e:
             logger.error("streaming_query_failed", error=str(e))
             raise QueryError(str(e))
-
-    def _expand_query(self, query: str, chat_history: List[Tuple[str, str]]) -> str:
-        """
-        Expand vague follow-up queries using the previous turn's topic.
-
-        Args:
-            query: Current user query.
-            chat_history: List of (user_query, assistant_answer) tuples.
-
-        Returns:
-            Expanded query string, or original query if no expansion needed.
-        """
-        if chat_history and any(p in query.lower() for p in VAGUE_PATTERNS):
-            last_query = chat_history[-1][0]
-            expanded = f"{last_query} {query}"
-            logger.info("query_expanded", original=query, expanded=expanded)
-            return expanded
-        return query
-
 
     def _build_context(self, search_results: Dict[str, Any]) -> str:
         """

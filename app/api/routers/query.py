@@ -142,7 +142,7 @@ async def clear_conversation_history(
 ) -> dict:
     """Clear conversation history for a session."""
     cleared = rag_service.clear_session(session_id)
-    
+
     if cleared:
         return {"message": "Conversation history cleared", "session_id": session_id}
     else:

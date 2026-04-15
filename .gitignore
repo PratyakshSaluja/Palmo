@@ -38,3 +38,9 @@ dist/
 build/
 *.egg-info/
 
+# Cache files
+data/llm_cache.db
+data/semantic_cache.json
+
+# Claude settings
+.claude/

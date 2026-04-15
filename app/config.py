@@ -24,10 +24,10 @@ class Settings(BaseSettings):
     # ===========================================
     # LLM Configuration
     # ===========================================
-    gemini_api_key: str = Field(..., description="Google Gemini API key for LLM access")
+    openai_api_key: str = Field(..., description="OpenAI API key for LLM access")
     llm_model_name: str = Field(
-        default="gemini-2.0-flash",
-        description="Gemini model name to use",
+        default="gpt-5.4-mini",
+        description="OpenAI model name to use",
     )
     llm_temperature: float = Field(
         default=0.1,
@@ -46,12 +46,8 @@ class Settings(BaseSettings):
     # Embedding Configuration
     # ===========================================
     embedding_model_name: str = Field(
-        default="sentence-transformers/all-MiniLM-L6-v2",
-        description="HuggingFace embedding model name",
-    )
-    embedding_device: str = Field(
-        default="cpu",
-        description="Device for embedding computation (cpu/cuda)",
+        default="text-embedding-3-small",
+        description="OpenAI embedding model name",
     )
 
     # ===========================================
